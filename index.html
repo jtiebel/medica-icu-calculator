@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+
+<html lang="de">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THERA-Trainer ICU Claculator</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+
+    <!-- calculator wrapper -->
+    <div class="calculator-wrapper">
+
+      <!-- calculator headline -->
+      <div class="calculator-headline">
+        <h2>ICU Early Mobilization Program</h2>
+        <h3>Calculate potential cost savings</h3>
+      </div>
+
+      <!-- calculator description -->
+      <div class="calculator-description">
+        <p>Early mobilization for patients in the ICU has not only an impact on medical complications, but also on the ICU length of stay and cost of care. Implementing a early mobilization program in the ICU, can reduce both.</p>
+        <p>You are only three steps away from your individual cost benefit analysis. Answer the following questions about your ICU to see the potential savings gained from creating an Early Mobilization Program. Don‘t worry if you don’t know the exact answers. We’ve provided some research-based benchmarks to help you along the way.</p>
+      </div>
+
+      <!-- calculator progressbar -->
+      <div class="calculator-progressbar">
+        <ul class="progressbar">
+          <li class="progress-step1 active">Step 1</li>
+          <li class="progress-step2">Step 2</li>
+          <li class="progress-step3">Step 3</li>
+        </ul>
+      </div>
+
+      <!-- calculator step1 admissions -->
+      <div class="calculator-steps step1 admissions">
+        <div>
+          <p><b>How many ICU admissions do you have per year?</b></p>
+        </div>
+        <div class="selector-wrapper">
+          <ul class="selector">
+            <li>
+                <input type="radio" id="adminssions1" name="admissions" value="400" />
+                <label for="adminssions1">400</label>
+            </li>
+            <li>
+                <input type="radio" id="adminssions2" name="admissions" checked="checked" value="900" />
+                <label for="adminssions2">900</label>
+            </li>
+            <li>
+                <input type="radio" id="adminssions3" name="admissions" value="2000" />
+                <label for="adminssions3">2000</label>
+            </li>
+            </ul>
+            <ul class="selector">
+              <li>
+                  <input type="radio" id="admissionsVar" name="admissions" value="0" />
+                  <label for="admissionsVar">other:</label>
+              </li>
+              <li>
+                  <input type="text" id="admissionsAmount" name="admission" />
+              </li>
+            </ul>
+            <p class="step1 warning" style="display:none; color: red;">Must be between 200 and 5000</p>
+          </div>
+        <div>
+          <button id="step1Next" type="next">Next</button>
+        </div>
+      </div>
+
+      <!-- calculator step 2 - los -->
+      <div class="calculator-steps step2 los" style="display:none;">
+        <div>
+          <p><b>What is the average length of stay for patients in your ICU?</b></p>
+          <p>(Benchmark 3-6.5 days)</p>
+        </div>
+        <div class="range-slider">
+          <div class=""><span id="losBeforeValue"></span> Days</div>
+          <input class="input-range" type="range" id="losBefore" name="losBefore" value="6" min="3" max="30" step="0.1">
+        </div>
+        <div>
+          <button id="step2Back" type="next">Back</button>
+          <button id="step2Next" type="next">Next</button>
+        </div>
+      </div>
+
+      <!-- calculator step 3 - cost -->
+      <div class="calculator-steps step3 los" style="display:none;">
+        <div>
+          <p><b>What is your average daily cost per patient in the ICU?</b></p>
+          <p>(Benchmark 1600,-)</p>
+        </div>
+        <div class="range-slider">
+          <div class=""><span id="dailyCostValue"></span> <span class="currency">EUR</span></div>
+          <input class="input-range" type="range" id="dailyCost" name="dailyCost" value="1600" min="100" max="5000" step="100">
+        </div>
+        <div>
+          <ul class="selector">
+            <li>
+                <input type="radio" id="currencyUsd" name="currencies" value="USD" />
+                <label for="currencyUsd">USD</label>
+            </li>
+            <li>
+                <input type="radio" id="currencyEur" name="currencies" value="EUR" checked="checked" />
+                <label for="currencyEur">EUR</label>
+            </li>
+            <li>
+                <input type="radio" id="currencyGbp" name="currencies" value="GBP" />
+                <label for="currencyGbp">GBP</label>
+            </li>
+            </ul>
+          </div>
+        <div>
+          <button id="step3Back" type="next">Back</button>
+          <button id="step3Next" type="next">Next</button>
+        </div>
+      </div>
+
+      <!-- calculator result -->
+      <div class="calculator-steps step4 calculator-result result" style="display:none;">
+        <div>
+          <p>Based on your answers, implementing an Early Mobility program could help you reduce ICU length of stay by between</p>
+          <p><span class="minDays"></span> and <span class="maxDays"></span> days.</p>
+        </div>
+        <div>
+          <p>This could result in an annual savings of between</p>
+          <p><span class="minCostSavings"></span> <span class="selectedCurrency"></span> and <span class="maxCostSavings"></span> <span class="selectedCurrency"></span> days.</p>
+        </div>
+        <div>
+          <ul class="selector">
+            <li>
+                <input type="radio" id="caseWorst" name="cases" value="0.8" />
+                <label for="caseWorst">Worst Case</label>
+            </li>
+            <li>
+                <input type="radio" id="caseRegular" name="cases" value="1" checked="checked" />
+                <label for="caseRegular">Regular</label>
+            </li>
+            <li>
+                <input type="radio" id="caseBest" name="cases" value="1.2" />
+                <label for="caseBest">Best Case</label>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <button id="step4Back" type="next">Back</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- calculator js -->
+    <script type="text/javascript" src="script.js"></script>
+
+  </body>
+
+</html>
+
+
